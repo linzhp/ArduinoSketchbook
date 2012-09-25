@@ -65,8 +65,6 @@ void setup() {
 }
 
 void loop() {
-  
-
 
   rightLightVal = analog.readAverage(rightLightSensorPin, SAMPLES);
   leftLightVal = analog.readAverage(leftLightSensorPin, SAMPLES);
@@ -75,15 +73,15 @@ void loop() {
     lower_count = lower_count + 1;
     greater_count = 0;
     if (lower_count > DELTA_COUNT) {
-      servoval = servoval - SERVO_INC;
-      if (servoval < SERVO_MIN) servoval = SERVO_MIN;
+       servoval = servoval + SERVO_INC;
+       if (servoval > SERVO_MAX) servoval = SERVO_MAX;
     }
   } else{
     greater_count = greater_count + 1;
     lower_count = 0;
     if (greater_count > DELTA_COUNT) {
-       servoval = servoval + SERVO_INC;
-       if (servoval > SERVO_MAX) servoval = SERVO_MAX;
+      servoval = servoval - SERVO_INC;
+      if (servoval < SERVO_MIN) servoval = SERVO_MIN;
     }
   }
   
@@ -93,7 +91,7 @@ void loop() {
   
   
   
-  motors.setSpeeds(clamp_256(MOTOR_SPEED-deflect),clamp_256(MOTOR_SPEED+deflect));
+  motors.setSpeeds(clamp_256(MOTOR_SPEED+deflect),clamp_256(MOTOR_SPEED-deflect));
   
   blink_leds(25);
 }
